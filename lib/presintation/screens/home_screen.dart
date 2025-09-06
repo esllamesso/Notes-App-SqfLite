@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:intl/intl.dart';
 import 'package:test_pr/data/note_model.dart';
 import 'package:test_pr/logic/db.dart';
@@ -55,14 +56,11 @@ class _HomeScreenState extends State<HomeScreen> {
         padding: const EdgeInsets.all(12.0),
         child: notes.isEmpty
             ? const Center(child: Text('No notes yet'))
-            : GridView.builder(
+            : MasonryGridView.count(
+          crossAxisCount: 2,
+          mainAxisSpacing: 12,
+          crossAxisSpacing: 12,
           itemCount: notes.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 2,
-            crossAxisSpacing: 12,
-            mainAxisSpacing: 12,
-            childAspectRatio: 1.2,
-          ),
           itemBuilder: (context, index) {
             final note = notes[index];
             final color = notesColors[index % notesColors.length];
@@ -88,10 +86,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     note.description,
                     style: const TextStyle(
                         fontSize: 14, color: Colors.black87),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
                   ),
-                  const Spacer(),
+                  const SizedBox(height: 6),
                   Text(
                     DateFormat('MMM d, yyyy').format(note.createdAt),
                     style: const TextStyle(
@@ -121,7 +117,6 @@ class _HomeScreenState extends State<HomeScreen> {
               createdAt: DateTime.now(),
             );
             await DBHelper.insertNote(newNote);
-
             _loadNotes();
           }
         },
