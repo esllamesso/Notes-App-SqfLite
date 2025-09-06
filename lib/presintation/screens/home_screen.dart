@@ -13,18 +13,31 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-List<Notes> notes = [];
-@override
-void initState(){
-  super.initState();
-  _loadNotes();
-}
-Future<void> _loadNotes() async {
-  final data = await DBHelper.getNotes();
-  setState(() {
-    notes = data;
-  });
-}
+  List<Notes> notes = [];
+
+  final List<Color> notesColors = [
+    Colors.pink.shade100,
+    Colors.blue.shade100,
+    Colors.green.shade100,
+    Colors.yellow.shade100,
+    Colors.orange.shade100,
+    Colors.purple.shade100,
+    Colors.teal.shade100,
+  ];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadNotes();
+  }
+
+  Future<void> _loadNotes() async {
+    final data = await DBHelper.getNotes();
+    setState(() {
+      notes = data;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,7 +53,9 @@ Future<void> _loadNotes() async {
       ),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
-        child: notes.isEmpty ? Center(child: Text('No notes yet'),) : GridView.builder(
+        child: notes.isEmpty
+            ? const Center(child: Text('No notes yet'))
+            : GridView.builder(
           itemCount: notes.length,
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
@@ -50,10 +65,12 @@ Future<void> _loadNotes() async {
           ),
           itemBuilder: (context, index) {
             final note = notes[index];
+            final color = notesColors[index % notesColors.length];
+
             return Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Colors.pink.shade100,
+                color: color,
                 borderRadius: BorderRadius.circular(16),
               ),
               child: Column(
@@ -69,7 +86,8 @@ Future<void> _loadNotes() async {
                   const SizedBox(height: 6),
                   Text(
                     note.description,
-                    style: const TextStyle(fontSize: 14, color: Colors.black87),
+                    style: const TextStyle(
+                        fontSize: 14, color: Colors.black87),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
