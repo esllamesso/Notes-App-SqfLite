@@ -13,19 +13,27 @@ class _NoteScreenState extends State<NoteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
+    final height = size.height;
+    final width = size.width;
+
     return Scaffold(
-      backgroundColor: Colors.purple.shade50,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.purple.shade50,
+        backgroundColor: Colors.white,
         elevation: 0,
         centerTitle: true,
-        title: const Text(
+        title: Text(
           "New Note",
-          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: TextStyle(
+            fontSize: width * 0.05,
+            fontWeight: FontWeight.bold,
+            color: Colors.black,
+          ),
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.check, color: Colors.purple),
+            icon: Icon(Icons.check, color: Colors.orange, size: width * 0.07),
             onPressed: () {
               Navigator.pop(context, {
                 "title": _titleController.text,
@@ -36,24 +44,26 @@ class _NoteScreenState extends State<NoteScreen> {
         ],
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: EdgeInsets.all(width * 0.04),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             TextField(
               controller: _titleController,
-              style: const TextStyle(
-                  fontSize: 20, fontWeight: FontWeight.bold),
+              style: TextStyle(
+                fontSize: width * 0.05,
+                fontWeight: FontWeight.bold,
+              ),
               decoration: const InputDecoration(
                 hintText: "Title",
                 border: InputBorder.none,
               ),
             ),
-            const SizedBox(height: 12),
+            SizedBox(height: height * 0.015),
             Expanded(
               child: TextField(
                 controller: _descController,
-                style: const TextStyle(fontSize: 16),
+                style: TextStyle(fontSize: width * 0.04),
                 decoration: const InputDecoration(
                   hintText: "Description",
                   border: InputBorder.none,

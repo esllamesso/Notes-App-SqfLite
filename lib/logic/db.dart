@@ -31,8 +31,8 @@ class DBHelper {
     );
   }
 
-  // insert
-  static Future<int> insertNote(Notes notes) async {
+  // create
+  static Future<int> createNote(Notes notes) async {
     final db = await DBHelper.database;
     return await db.insert(
       'notes',
@@ -41,8 +41,8 @@ class DBHelper {
     );
   }
 
-  // get
-  static Future<List<Notes>> getNotes() async {
+  // read
+  static Future<List<Notes>> readNotes() async {
     final db = await DBHelper.database;
     final List<Map<String, dynamic>> maps = await db.query('notes');
     return maps.map((json) => Notes.fromJson(json)).toList();
